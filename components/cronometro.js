@@ -13,15 +13,15 @@ function gerarZeroAEsquerda(numero)
 
 let isPaused = false;
 
-export default function App() {
+export default function App({route}) {
 
-  let workMinutes = 1
+  let workMinutes = route.params.trabalhoNumber
   const [pauseIcon, setPauseIcon] = useState('pause')
   let minutes = workMinutes
   let seconds = 0 
   let currentSection = 1
-  let breakMinutes = 2
-  let sections = 2
+  let breakMinutes = route.params.breakNumber
+  let sections = route.params.sectionNumber
   let isOnBreak = false;
   const [number, setNumber] = useState(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`);
   const [styleCronometer, setStyle] = useState(isOnBreak?styles.BordaAmarelo:styles.BordaVerde);
@@ -58,6 +58,7 @@ function pausar()
             {
               alert('acabou o trabalho')
               clearInterval(interval)
+              route.params.navigation.goBack()
             }
             minutes = breakMinutes;
             setText('Pausa');

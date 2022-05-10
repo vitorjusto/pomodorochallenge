@@ -10,8 +10,16 @@ const Stack = createNativeStackNavigator();
 
 export default function App(){
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <NavigationContainer
+    
+    >
+      <Stack.Navigator 
+      screenOptions={{
+        
+        headerStyle:{backgroundColor: '#3C4262', borderBottomWidth: "0px"},/* headerStyle altera a faixa de cima do conteudo*/
+        headerTitleStyle:{color: 'rgb(162, 165, 180)'},/* headerTitleStyle altera o texto da faixa de cima do conteudo*/
+        
+        }}>
         <Stack.Screen name="Home" component={Configuracao} />
         <Stack.Screen name="Cronometro" component={Cronometro} />
       </Stack.Navigator>

@@ -98,7 +98,7 @@ export default function App({ navigation }) {
             </View>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Cronometro')}>  
+            <TouchableOpacity onPress={() => navigation.navigate('Cronometro', {trabalhoNumber: trabalhoNumber, breakNumber: breakNumber, sectionNumber: sectionNumber, navigation, navigation})}>  
                 <View style={styles.botaoContinue}>
                     <Text style={styles.textobotao}>Continuar</Text>
                 </View>
