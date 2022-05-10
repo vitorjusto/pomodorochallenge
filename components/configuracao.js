@@ -3,7 +3,30 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
-export default function App() {
+function addNumber(number)
+{
+    if(number == 99)
+        return 99
+    number += 1
+    return number
+}
+
+function subNumber(number)
+{
+    if(number == 1)
+        return 1
+    
+    number -= 1
+    return number
+} 
+
+export default function App({ navigation }) {
+
+    const [trabalhoNumber, setTrabalhoNumber] = useState(25);
+    const [breakNumber, setbreakNumber] = useState(5);
+    const [sectionNumber, setSectionNumber] = useState(3);
+    const [addNumberText, setAddNumberText] = useState('trabalho');
+
     return(
         <View style={styles.container}>
 
@@ -11,12 +34,12 @@ export default function App() {
 
             <View style={styles.escolherNumero}>
             <View style={styles.BotaoContainer}>
-                <TouchableOpacity >  
+                <TouchableOpacity onPressIn={() => setTrabalhoNumber(addNumber(trabalhoNumber))}>  
                 <View style={styles.botao}>
                 <Entypo name={'arrow-up'} size={25} color={'#333853'}/>
                 </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity  onPress={() => setTrabalhoNumber(subNumber(trabalhoNumber))} >
                 <View style={styles.botao}>
                 <Entypo name={'arrow-down'} size={25} color={'#333853'}/>
                        
@@ -25,7 +48,7 @@ export default function App() {
             </View>
             <View style={styles.centralizar}>
             <View style={styles.numeroContainer}>
-            <Text style={styles.Numero}>25</Text>
+            <Text style={styles.Numero}>{trabalhoNumber}</Text>
             </View>
                 <Text style={styles.texto}>Trabalho</Text>
             </View>
@@ -33,12 +56,12 @@ export default function App() {
 
             <View style={styles.escolherNumero}>
             <View style={styles.BotaoContainer}>
-                <TouchableOpacity >  
+                <TouchableOpacity onPress={() => setbreakNumber(addNumber(breakNumber))}>  
                 <View style={styles.botao}>
                 <Entypo name={'arrow-up'} size={25} color={'#333853'}/>
                 </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
+                </TouchableOpacity >
+                <TouchableOpacity onPress={() => setbreakNumber(subNumber(breakNumber))}>
                 <View style={styles.botao}>
                 <Entypo name={'arrow-down'} size={25} color={'#333853'}/>
                        
@@ -47,7 +70,7 @@ export default function App() {
             </View>
             <View style={styles.centralizar}>
             <View style={styles.numeroContainer}>
-            <input style={{backgroundColor: 'rgba(0,0,0,0)', border: '0px', width: 50, height: 50, fontSize: 45}} type={'Number'} min={1} max={99}></input>
+            <Text style={styles.Numero}>{breakNumber}</Text>
             </View>
                 <Text style={styles.texto}>Pausa</Text>
             </View>
@@ -55,12 +78,12 @@ export default function App() {
 
             <View style={styles.escolherNumero}>
             <View style={styles.BotaoContainer}>
-                <TouchableOpacity >  
+                <TouchableOpacity onPress={() => setSectionNumber(addNumber(sectionNumber))}>  
                 <View style={styles.botao}>
                 <Entypo name={'arrow-up'} size={25} color={'#333853'}/>
                 </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setSectionNumber(subNumber(sectionNumber))}>
                 <View style={styles.botao}>
                 <Entypo name={'arrow-down'} size={25} color={'#333853'}/>
                        
@@ -69,11 +92,17 @@ export default function App() {
             </View>
             <View style={styles.centralizar}>
             <View style={styles.numeroContainer}>
-            <input style={{backgroundColor: 'rgba(0,0,0,0)', border: '0px', width: 50, height: 50, fontSize: 45}} type={'Number'} min={1} max={99}></input>
+            <Text style={styles.Numero}>{sectionNumber}</Text>
             </View>
                 <Text style={styles.texto}>Sessões</Text>
             </View>
             </View>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Cronometro')}>  
+                <View style={styles.botaoContinue}>
+                    <Text style={styles.textobotao}>Continuar</Text>
+                </View>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -139,5 +168,20 @@ const styles = StyleSheet.create({
   {
     color: 'rgb(162, 165, 180)',
     fontSize: "50px"
+  },
+  botaoContinue:
+  {
+      display: 'flex',
+    backgroundColor: '#3C4262',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 200,
+    borderRadius: 10,
+    height: 60
+  },
+  textobotao:
+  {
+    fontSize: "30px",
+    color: 'rgb(162, 165, 180)',
   }
 })

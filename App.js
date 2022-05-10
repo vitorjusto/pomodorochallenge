@@ -1,21 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import {createDrawerNavigator, DrawerItemList, } from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Configuracao from './components/configuracao';
-import Cronometro from './components/cronometro'
+import Cronometro from './components/cronometro';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+export default function App(){
   return (
-    <View style={styles.container}>
-      <Configuracao></Configuracao>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Configuracao} />
+        <Stack.Screen name="Cronometro" component={Cronometro} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
