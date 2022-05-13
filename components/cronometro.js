@@ -98,7 +98,8 @@ function pausar()
         <View style={styles.botao}>
           <View style={{width: 80, height: 80, borderColor: 'white', borderWidth: 3, borderRadius: 20,display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',}}>
+    justifyContent: 'center',
+    boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"}}>
             <Ionicons name={pauseIcon} size={50} color={'white'} style={{marginLeft: 3}}/>
           </View>
         </View>
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 300,
+    boxShadow: "1px 1px 7px #3c4262ee"
   },
   BordaVerde:
   {
@@ -139,7 +141,8 @@ const styles = StyleSheet.create({
     height: 270,
     borderRadius: 270,
     borderColor: '#219653',
-    borderWidth: 5
+    borderWidth: 5,
+    boxShadow: "1px 1px 7px #219653aa"
   },
   BordaAmarelo:
   {
@@ -150,7 +153,8 @@ const styles = StyleSheet.create({
     height: 270,
     borderRadius: 270,
     borderColor: '#F2C94C',
-    borderWidth: 5
+    borderWidth: 5,
+    boxShadow: "1px 1px 7px #F2C94Caa"
   },
 
   textoAmarelo:
@@ -183,6 +187,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    boxShadow: "3px 3px 5px rgba(0,0,0, 0.5)"
   }
   
 });

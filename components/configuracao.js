@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 100,
         height: 100,
-        borderRadius: 10
+        borderRadius: 10,
+        boxShadow: "3px 3px 5px rgba(0,0,0, 0.5)"
       },
       botao:
   {
@@ -177,7 +178,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 200,
     borderRadius: 10,
-    height: 60
+    height: 60,
+    boxShadow: "3px 3px 5px rgba(0,0,0, 0.5)"
   },
   textobotao:
   {
