@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import Swal from 'sweetalert2'
 
 function gerarZeroAEsquerda(numero)
 {
@@ -12,9 +13,8 @@ function gerarZeroAEsquerda(numero)
 }
 
 let isPaused = false;
-
 export default function App({route}) {
-
+  
   let workMinutes = route.params.trabalhoNumber
   const [pauseIcon, setPauseIcon] = useState('pause')
   let minutes = workMinutes
@@ -24,19 +24,30 @@ export default function App({route}) {
   let sections = route.params.sectionNumber
   let isOnBreak = false;
   const [number, setNumber] = useState(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`);
-  const [styleCronometer, setStyle] = useState(isOnBreak?styles.BordaAmarelo:styles.BordaVerde);
+  const [styleCronometer, setStyle] = useState(isOnBreak?'#F2C94C':'#219653');
   const [styleText, setStyleText] = useState(isOnBreak?styles.textoAmarelo:styles.textoVerde);
   const [text, setText] = useState('Trabalho');
-  const [sectionText, setSectionText] = useState('Sessão: ' + currentSection)
+  const [sectionText, setSectionText] = useState('Sessão: ' + currentSection);
+  const [borda, setBorda] = useState('0');
 
 function pausar()
 {
   isPaused = !isPaused
+  
   setPauseIcon(isPaused?'play':'pause')
 }
 
+function calculaBorda()
+{
+  var totalDeSegundos = (isOnBreak?breakMinutes:workMinutes) * 60;
+  var segundosRestantes = (isOnBreak?0:totalDeSegundos) - ((minutes * 60) + seconds)
 
+  var resultado = (691 * segundosRestantes) / totalDeSegundos
+
+  return resultado
+}
   useEffect(() => {
+    isPaused = false//deixa aqui pq funciona
     const interval = setInterval(() => {
       if(isPaused)
         return;
@@ -56,7 +67,15 @@ function pausar()
           {
             if(currentSection == sections)
             {
-              alert('acabou o trabalho')
+              Swal.fire({
+                icon: 'success',
+                title: 'Parabens!!!',
+                text: 'Seu pomodoro terminou. Agora você pode descansar!',
+                background: '#3C4262',
+                color: 'rgb(162, 165, 180)',
+                confirmButtonColor: 'rgb(101, 107, 138)',
+            
+              })
               clearInterval(interval)
               route.params.navigation.goBack()
             }
@@ -66,7 +85,7 @@ function pausar()
           
           isOnBreak = !isOnBreak;
           seconds = 1
-          setStyle(isOnBreak?styles.BordaAmarelo:styles.BordaVerde)
+          setStyle(isOnBreak?'#F2C94C':'#219653')
           setStyleText(isOnBreak?styles.textoAmarelo:styles.textoVerde)
         }else
         {
@@ -76,6 +95,7 @@ function pausar()
       }
 
       seconds -= 1;
+      setBorda(calculaBorda())
       setNumber(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`)
     }, 1000);
     return () => clearInterval(interval);
@@ -89,9 +109,29 @@ function pausar()
       </View>
 
         <View style={styles.cronometroContainer}>
-            <View style={styleCronometer}>
-              <Text style={styles.conometro}>{number}</Text>
-            </View>
+            <svg width="290" height="290">
+
+    <defs>
+    <filter id="filtro" x="-1" y="-1" width="300%" height="300%">
+      <feOffset result="offOut" in="SourceGraphic" dx="0" dy="0" />
+      <feColorMatrix result = "matrixOut" in = "offOut" type = "matrix" values = "1 0"/>
+      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="5" />
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+  </defs>
+
+  <path d="
+        M 145, -145
+        m -110, 0
+        a 75,75 0 1,0 220,0
+        a 75,75 0 1,0 -220,0
+    " 
+    stroke={styleCronometer} style={{transform: "rotate(90deg)"}} strokeDashoffset={borda} strokeDasharray="691, 691" strokeWidth="10" strokeLinecap="round" fill='rgba(0,0,0,0)' filter="url(#filtro)"/>
+  <text fill="#ffffff" fontSize="45" fontFamily="Verdana" color="rgb(162, 165, 180)" x="65" y="165">{number}</text>
+    
+</svg>
+              
+            
         </View>
       
       <TouchableOpacity onPress={pausar}>
@@ -132,40 +172,18 @@ const styles = StyleSheet.create({
     borderRadius: 300,
     boxShadow: "1px 1px 7px #3c4262ee"
   },
-  BordaVerde:
-  {
-    backgroundColor: 'rgba(0,0,0,0)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 270,
-    height: 270,
-    borderRadius: 270,
-    borderColor: '#219653',
-    borderWidth: 5,
-    boxShadow: "1px 1px 7px #219653aa"
-  },
-  BordaAmarelo:
-  {
-    backgroundColor: 'rgba(0,0,0,0)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 270,
-    height: 270,
-    borderRadius: 270,
-    borderColor: '#F2C94C',
-    borderWidth: 5,
-    boxShadow: "1px 1px 7px #F2C94Caa"
-  },
-
+ 
   textoAmarelo:
   {
     color: '#F2C94C',
-    fontSize : "60px"
+    fontSize : "60px",
+    fontFamily: "Verdana" 
   },
   textoVerde:
   {
     color: '#219653',
-    fontSize : "60px"
+    fontSize : "60px",
+    fontFamily: "Verdana" 
   },
 
   conometro:
@@ -176,7 +194,8 @@ const styles = StyleSheet.create({
   textoSessao:
   {
     color: 'rgb(162, 165, 180)',
-    fontSize: "20px"
+    fontSize: "20px",
+    fontFamily: "Verdana" 
   },
   botao:
   {

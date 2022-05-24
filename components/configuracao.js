@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
+
 function addNumber(number)
 {
     if(number == 99)
@@ -20,6 +21,8 @@ function subNumber(number)
     return number
 } 
 
+
+
 export default function App({ navigation }) {
 
     const [trabalhoNumber, setTrabalhoNumber] = useState(25);
@@ -27,10 +30,11 @@ export default function App({ navigation }) {
     const [sectionNumber, setSectionNumber] = useState(3);
     const [addNumberText, setAddNumberText] = useState('trabalho');
 
+
+
+    
     return(
         <View style={styles.container}>
-
-            <Text style={styles.titulo}>Pomodoro</Text>
 
             <View style={styles.escolherNumero}>
             <View style={styles.BotaoContainer}>
@@ -98,7 +102,7 @@ export default function App({ navigation }) {
             </View>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Cronometro', {trabalhoNumber: trabalhoNumber, breakNumber: breakNumber, sectionNumber: sectionNumber, navigation, navigation})}>  
+            <TouchableOpacity onPress={() => navigation.navigate('Cronômetro', {trabalhoNumber: trabalhoNumber, breakNumber: breakNumber, sectionNumber: sectionNumber, navigation, navigation})}>  
                 <View style={styles.botaoContinue}>
                     <Text style={styles.textobotao}>Continuar</Text>
                 </View>

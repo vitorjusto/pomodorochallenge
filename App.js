@@ -15,8 +15,8 @@ export default function App(){
         headerTitleStyle:{color: 'rgb(162, 165, 180)'},
         
         }}>
-        <Stack.Screen name="Home" component={Configuracao} />
-        <Stack.Screen name="Cronometro" component={Cronometro} />
+        <Stack.Screen name="Pomodoro" component={Configuracao} />
+        <Stack.Screen name="Cronômetro"  component={Cronometro} />
       </Stack.Navigator>
     </NavigationContainer>
   );
