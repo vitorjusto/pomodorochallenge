@@ -13,17 +13,18 @@ function gerarZeroAEsquerda(numero)
 }
 
 let isPaused = false;
+let isOnBreak = false;
+let minutes = 0;
+let currentSection = 1
+let seconds = 0 
+let breakMinutes = 0
+let sections = 0
+let workMinutes = 0
+
 export default function App({route}) {
   
-  let workMinutes = route.params.trabalhoNumber
   const [pauseIcon, setPauseIcon] = useState('pause')
-  let minutes = workMinutes
-  let seconds = 0 
-  let currentSection = 1
-  let breakMinutes = route.params.breakNumber
-  let sections = route.params.sectionNumber
-  let isOnBreak = false;
-  const [number, setNumber] = useState(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`);
+  const [number, setNumber] = useState(`${gerarZeroAEsquerda(route.params.trabalhoNumber)} : ${gerarZeroAEsquerda(seconds)}`);
   const [styleCronometer, setStyle] = useState(isOnBreak?'#F2C94C':'#219653');
   const [styleText, setStyleText] = useState(isOnBreak?styles.textoAmarelo:styles.textoVerde);
   const [text, setText] = useState('Trabalho');
@@ -46,8 +47,56 @@ function calculaBorda()
 
   return resultado
 }
+
+function pular()
+{
+  if(isOnBreak)
+  {
+    minutes = workMinutes;
+    setText('Trabalho');
+    currentSection += 1;
+    setSectionText('Sessão: ' + currentSection);
+  }
+  else
+  {
+    if(currentSection == sections)
+    {
+      Swal.fire({
+        icon: 'success',
+        title: 'Parabens!!!',
+        text: 'Seu pomodoro terminou. Agora você pode descansar!',
+        background: '#3C4262',
+        color: 'rgb(162, 165, 180)',
+        confirmButtonColor: 'rgb(101, 107, 138)',
+    
+      })
+      route.params.navigation.goBack()
+    }
+    minutes = breakMinutes;
+    setText('Pausa');
+  }
+  
+  isOnBreak = !isOnBreak;
+  seconds = 0
+  setStyle(isOnBreak?'#F2C94C':'#219653')
+  setStyleText(isOnBreak?styles.textoAmarelo:styles.textoVerde)
+  setBorda(calculaBorda())
+  setNumber(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`)
+}
+
+
   useEffect(() => {
     isPaused = false//deixa aqui pq funciona
+    isOnBreak = false//deixa aqui tambem pq talvez funciona
+    setStyle(isOnBreak?'#F2C94C':'#219653')
+    setStyleText(isOnBreak?styles.textoAmarelo:styles.textoVerde)
+    workMinutes = route.params.trabalhoNumber;
+    minutes = workMinutes;
+    currentSection = 1;
+    seconds = 0;
+    setNumber(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`)
+    breakMinutes = route.params.breakNumber;
+    sections = route.params.sectionNumber;
     const interval = setInterval(() => {
       if(isPaused)
         return;
@@ -56,37 +105,7 @@ function calculaBorda()
       {
         if(minutes == 0)
         {
-          if(isOnBreak)
-          {
-            minutes = workMinutes;
-            setText('Trabalho');
-            currentSection += 1;
-            setSectionText('Sessão: ' + currentSection);
-          }
-          else
-          {
-            if(currentSection == sections)
-            {
-              Swal.fire({
-                icon: 'success',
-                title: 'Parabens!!!',
-                text: 'Seu pomodoro terminou. Agora você pode descansar!',
-                background: '#3C4262',
-                color: 'rgb(162, 165, 180)',
-                confirmButtonColor: 'rgb(101, 107, 138)',
-            
-              })
-              clearInterval(interval)
-              route.params.navigation.goBack()
-            }
-            minutes = breakMinutes;
-            setText('Pausa');
-          }
-          
-          isOnBreak = !isOnBreak;
-          seconds = 1
-          setStyle(isOnBreak?'#F2C94C':'#219653')
-          setStyleText(isOnBreak?styles.textoAmarelo:styles.textoVerde)
+          pular()
         }else
         {
           minutes -= 1;
@@ -141,6 +160,17 @@ function calculaBorda()
     justifyContent: 'center',
     boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"}}>
             <Ionicons name={pauseIcon} size={50} color={'white'} style={{marginLeft: 3}}/>
+          </View>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={pular}>
+        <View style={styles.botao}>
+          <View style={{width: 80, height: 80, borderColor: 'white', borderWidth: 3, borderRadius: 20,display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"}}>
+            <Ionicons name={'play-skip-forward'} size={50} color={'white'} style={{marginLeft: 3}}/>
           </View>
         </View>
       </TouchableOpacity>
