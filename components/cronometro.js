@@ -97,6 +97,7 @@ function pular()
     setNumber(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`)
     breakMinutes = route.params.breakNumber;
     sections = route.params.sectionNumber;
+    setSectionText('Sessão: ' + currentSection);
     const interval = setInterval(() => {
       if(isPaused)
         return;
@@ -152,13 +153,10 @@ function pular()
               
             
         </View>
-      
+      <View style={styles.alinhaBotoes}>
       <TouchableOpacity onPress={pausar}>
         <View style={styles.botao}>
-          <View style={{width: 80, height: 80, borderColor: 'white', borderWidth: 3, borderRadius: 20,display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"}}>
+          <View style={styles.bordaBotao}>
             <Ionicons name={pauseIcon} size={50} color={'white'} style={{marginLeft: 3}}/>
           </View>
         </View>
@@ -166,14 +164,12 @@ function pular()
 
       <TouchableOpacity onPress={pular}>
         <View style={styles.botao}>
-          <View style={{width: 80, height: 80, borderColor: 'white', borderWidth: 3, borderRadius: 20,display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"}}>
+          <View style={styles.bordaBotao}>
             <Ionicons name={'play-skip-forward'} size={50} color={'white'} style={{marginLeft: 3}}/>
           </View>
         </View>
       </TouchableOpacity>
+    </View>
 
     </View>
   )
@@ -237,6 +233,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     boxShadow: "3px 3px 5px rgba(0,0,0, 0.5)"
+  },
+  bordaBotao:
+  {
+    width: 80,
+    height: 80, 
+    borderColor: 'white', 
+    borderWidth: 3, 
+    borderRadius: 20,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"
+  },
+  alinhaBotoes:
+  {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '80%'
   }
   
 });
