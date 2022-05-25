@@ -1,14 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import Swal from 'sweetalert2'
 
-function gerarZeroAEsquerda(numero)
+function gerarZeroAEsquerda(numero) 
 {
-  if(numero < 10)
+  if (numero < 10)
     return '0' + numero;
-  
+
   return numero;
 }
 
@@ -16,80 +15,77 @@ let isPaused = false;
 let isOnBreak = false;
 let minutes = 0;
 let currentSection = 1
-let seconds = 0 
+let seconds = 0
 let breakMinutes = 0
 let sections = 0
 let workMinutes = 0
 
-export default function App({route}) {
-  
+export default function App({ route })
+ {
+
   const [pauseIcon, setPauseIcon] = useState('pause')
   const [number, setNumber] = useState(`${gerarZeroAEsquerda(route.params.trabalhoNumber)} : ${gerarZeroAEsquerda(seconds)}`);
-  const [styleCronometer, setStyle] = useState(isOnBreak?'#F2C94C':'#219653');
-  const [styleText, setStyleText] = useState(isOnBreak?styles.textoAmarelo:styles.textoVerde);
+  const [styleCronometer, setStyle] = useState(isOnBreak ? '#F2C94C' : '#219653');
+  const [styleText, setStyleText] = useState(isOnBreak ? styles.textoAmarelo : styles.textoVerde);
   const [text, setText] = useState('Trabalho');
   const [sectionText, setSectionText] = useState('Sessão: ' + currentSection);
   const [borda, setBorda] = useState('0');
 
-function pausar()
-{
-  isPaused = !isPaused
-  
-  setPauseIcon(isPaused?'play':'pause')
-}
+  function pausar() {
+    isPaused = !isPaused
 
-function calculaBorda()
-{
-  var totalDeSegundos = (isOnBreak?breakMinutes:workMinutes) * 60;
-  var segundosRestantes = (isOnBreak?0:totalDeSegundos) - ((minutes * 60) + seconds)
-
-  var resultado = (691 * segundosRestantes) / totalDeSegundos
-
-  return resultado
-}
-
-function pular()
-{
-  if(isOnBreak)
-  {
-    minutes = workMinutes;
-    setText('Trabalho');
-    currentSection += 1;
-    setSectionText('Sessão: ' + currentSection);
+    setPauseIcon(isPaused ? 'play' : 'pause')
   }
-  else
-  {
-    if(currentSection == sections)
+
+  function calculaBorda() {
+    var totalDeSegundos = (isOnBreak ? breakMinutes : workMinutes) * 60;
+    var segundosRestantes = (isOnBreak ? 0 : totalDeSegundos) - ((minutes * 60) + seconds)
+
+    var resultado = (691 * segundosRestantes) / totalDeSegundos
+
+    return resultado
+  }
+
+  function pular() {
+    if (isOnBreak)
     {
-      Swal.fire({
-        icon: 'success',
-        title: 'Parabens!!!',
-        text: 'Seu pomodoro terminou. Agora você pode descansar!',
-        background: '#3C4262',
-        color: 'rgb(162, 165, 180)',
-        confirmButtonColor: 'rgb(101, 107, 138)',
-    
-      })
-      route.params.navigation.goBack()
+      minutes = workMinutes;
+      setText('Trabalho');
+      currentSection += 1;
+      setSectionText('Sessão: ' + currentSection);
     }
-    minutes = breakMinutes;
-    setText('Pausa');
-  }
-  
-  isOnBreak = !isOnBreak;
-  seconds = 0
-  setStyle(isOnBreak?'#F2C94C':'#219653')
-  setStyleText(isOnBreak?styles.textoAmarelo:styles.textoVerde)
-  setBorda(calculaBorda())
-  setNumber(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`)
-}
+    else 
+    {
+      if (currentSection == sections) 
+      {
+        Swal.fire({
+          icon: 'success',
+          title: 'Parabens!!!',
+          text: 'Seu pomodoro terminou. Agora você pode descansar!',
+          background: '#3C4262',
+          color: 'rgb(162, 165, 180)',
+          confirmButtonColor: 'rgb(101, 107, 138)',
 
+        })
+        route.params.navigation.goBack()
+      }
+      minutes = breakMinutes;
+      setText('Pausa');
+    }
+
+    isOnBreak = !isOnBreak;
+    seconds = 0
+    setStyle(isOnBreak ? '#F2C94C' : '#219653')
+    setStyleText(isOnBreak ? styles.textoAmarelo : styles.textoVerde)
+    setBorda(calculaBorda())
+    setNumber(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`)
+  }
 
   useEffect(() => {
     isPaused = false//deixa aqui pq funciona
     isOnBreak = false//deixa aqui tambem pq talvez funciona
-    setStyle(isOnBreak?'#F2C94C':'#219653')
-    setStyleText(isOnBreak?styles.textoAmarelo:styles.textoVerde)
+    setStyle(isOnBreak ? '#F2C94C' : '#219653')
+    setStyleText(isOnBreak ? styles.textoAmarelo : styles.textoVerde)
     workMinutes = route.params.trabalhoNumber;
     minutes = workMinutes;
     currentSection = 1;
@@ -99,15 +95,15 @@ function pular()
     sections = route.params.sectionNumber;
     setSectionText('Sessão: ' + currentSection);
     const interval = setInterval(() => {
-      if(isPaused)
+      if (isPaused)
         return;
-      
-      if(seconds == 0)
+
+      if (seconds == 0) 
       {
-        if(minutes == 0)
+        if (minutes == 0) 
         {
           pular()
-        }else
+        } else 
         {
           minutes -= 1;
           seconds = 60;
@@ -128,48 +124,43 @@ function pular()
         <Text style={styleText}>{text}</Text>
       </View>
 
-        <View style={styles.cronometroContainer}>
-            <svg width="290" height="290">
+      <View style={styles.cronometroContainer}>
+        <svg width="290" height="290">
+          <defs>
+            <filter id="filtro" x="-1" y="-1" width="300%" height="300%">
+              <feOffset result="offOut" in="SourceGraphic" dx="0" dy="0" />
+              <feColorMatrix result="matrixOut" in="offOut" type="matrix" values="1 0" />
+              <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="5" />
+              <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+            </filter>
+          </defs>
+          <path d="M 145, -145
+                   m -110, 0
+                   a 75,75 0 1,0 220,0
+                   a 75,75 0 1,0 -220,0"
+                stroke={styleCronometer} style={{ transform: "rotate(90deg)" }} strokeDashoffset={borda} strokeDasharray="691, 691" strokeWidth="10" strokeLinecap="round" fill='rgba(0,0,0,0)' filter="url(#filtro)" />
+          
+          <text fill="#ffffff" fontSize="45" fontFamily="Verdana" color="rgb(162, 165, 180)" x="65" y="165">{number}</text>
 
-    <defs>
-    <filter id="filtro" x="-1" y="-1" width="300%" height="300%">
-      <feOffset result="offOut" in="SourceGraphic" dx="0" dy="0" />
-      <feColorMatrix result = "matrixOut" in = "offOut" type = "matrix" values = "1 0"/>
-      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="5" />
-      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
-    </filter>
-  </defs>
-
-  <path d="
-        M 145, -145
-        m -110, 0
-        a 75,75 0 1,0 220,0
-        a 75,75 0 1,0 -220,0
-    " 
-    stroke={styleCronometer} style={{transform: "rotate(90deg)"}} strokeDashoffset={borda} strokeDasharray="691, 691" strokeWidth="10" strokeLinecap="round" fill='rgba(0,0,0,0)' filter="url(#filtro)"/>
-  <text fill="#ffffff" fontSize="45" fontFamily="Verdana" color="rgb(162, 165, 180)" x="65" y="165">{number}</text>
-    
-</svg>
-              
-            
-        </View>
+        </svg>
+      </View>
       <View style={styles.alinhaBotoes}>
-      <TouchableOpacity onPress={pausar}>
-        <View style={styles.botao}>
-          <View style={styles.bordaBotao}>
-            <Ionicons name={pauseIcon} size={50} color={'white'} style={{marginLeft: 3}}/>
+        <TouchableOpacity onPress={pausar}>
+          <View style={styles.botao}>
+            <View style={styles.bordaBotao}>
+              <Ionicons name={pauseIcon} size={50} color={'white'} style={{ marginLeft: 3 }} />
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={pular}>
-        <View style={styles.botao}>
-          <View style={styles.bordaBotao}>
-            <Ionicons name={'play-skip-forward'} size={50} color={'white'} style={{marginLeft: 3}}/>
+        <TouchableOpacity onPress={pular}>
+          <View style={styles.botao}>
+            <View style={styles.bordaBotao}>
+              <Ionicons name={'play-skip-forward'} size={50} color={'white'} style={{ marginLeft: 3 }} />
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    </View>
+        </TouchableOpacity>
+      </View>
 
     </View>
   )
@@ -183,13 +174,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     width: "100%",
   },
-  containerTexto:{
+  containerTexto: {
     alignItems: 'center',
     height: 100,
     display: 'flex',
     justifyContent: 'space-evenly'
   },
-  cronometroContainer :{
+  cronometroContainer: {
     backgroundColor: '#3C4262',
     alignItems: 'center',
     justifyContent: 'center',
@@ -198,18 +189,18 @@ const styles = StyleSheet.create({
     borderRadius: 300,
     boxShadow: "1px 1px 7px #3c4262ee"
   },
- 
+
   textoAmarelo:
   {
     color: '#F2C94C',
-    fontSize : "60px",
-    fontFamily: "Verdana" 
+    fontSize: "60px",
+    fontFamily: "Verdana"
   },
   textoVerde:
   {
     color: '#219653',
-    fontSize : "60px",
-    fontFamily: "Verdana" 
+    fontSize: "60px",
+    fontFamily: "Verdana"
   },
 
   conometro:
@@ -221,13 +212,13 @@ const styles = StyleSheet.create({
   {
     color: 'rgb(162, 165, 180)',
     fontSize: "20px",
-    fontFamily: "Verdana" 
+    fontFamily: "Verdana"
   },
   botao:
   {
     height: 100,
     width: 100,
-    backgroundColor:'#3C4262',
+    backgroundColor: '#3C4262',
     borderRadius: 20,
     display: 'flex',
     alignItems: 'center',
@@ -237,9 +228,9 @@ const styles = StyleSheet.create({
   bordaBotao:
   {
     width: 80,
-    height: 80, 
-    borderColor: 'white', 
-    borderWidth: 3, 
+    height: 80,
+    borderColor: 'white',
+    borderWidth: 3,
     borderRadius: 20,
     display: 'flex',
     alignItems: 'center',
@@ -252,7 +243,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '80%'
+    width: '75%'
   }
-  
+
 });
