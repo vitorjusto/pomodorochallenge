@@ -1,22 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { Entypo } from '@expo/vector-icons';
 import BotaoEscolha from './botaoEscolha'
-
-function addNumber(number) {
-    if (number == 99)
-        return 99
-    number += 1
-    return number
-}
-
-function subNumber(number) {
-    if (number == 1)
-        return 1
-
-    number -= 1
-    return number
-}
 
 export default function App({ navigation }) {
 

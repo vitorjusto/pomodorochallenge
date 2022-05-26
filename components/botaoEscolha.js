@@ -5,6 +5,15 @@ import React, { useState, useEffect } from 'react';
 
 
 function addNumber(number) {
+    
+    if (number === "")
+    {
+        return 2
+    }
+
+    number = `${number}`
+    number = Number(number.match(/[0-9]/g).join(""))
+    
     if (number == 99)
         return 99
     number += 1
@@ -12,6 +21,14 @@ function addNumber(number) {
 }
 
 function subNumber(number) {
+    
+    if (number === "")
+    {
+        return 1
+    }
+
+    number = `${number}`
+    number = Number(number.match(/[0-9]/g).join(""))
     if (number == 1)
         return 1
 
@@ -19,16 +36,25 @@ function subNumber(number) {
     return number
 }
 
+
+
 export default function App(props){
 
-
     const [estiloInput, setEstiloInput] = useState(props.getQuantidade < 10? styles.Numero:styles.NumeroDoisDigito);
+
+
+    function validarTexto(texto)
+    {
+        if(props.getQuantidade == "")
+            props.setQuantidade(1)
+    }
+
     function formataNumero(texto)
     {
         var valor = 1
         if (texto == "")
         {
-            props.setQuantidade(valor)
+            props.setQuantidade("")
         }else
         {
 
@@ -36,10 +62,6 @@ export default function App(props){
             if (valor > 100)
             {
                 valor = 99
-                props.setQuantidade(valor)
-            }else if(valor <= 0)
-            {
-                valor = 1
                 props.setQuantidade(valor)
             }
             else
@@ -64,7 +86,7 @@ export default function App(props){
                 </View>
                 <View style={styles.centralizar}>
                     <View style={styles.numeroContainer}>
-                        <TextInput style={estiloInput} keyboardType={'number-pad'} onChangeText={formataNumero} value={props.getQuantidade}/>
+                        <TextInput style={estiloInput} keyboardType={'number-pad'} onBlur={validarTexto} onChangeText={formataNumero} value={props.getQuantidade}/>
                     </View>
                     <Text style={styles.texto}>{props.texto}</Text>
                 </View>
@@ -122,14 +144,23 @@ const styles = StyleSheet.create({
     {
         color: 'rgb(162, 165, 180)',
         fontSize: "50px",
-        width: '55%',
-        paddingLeft: '15px'
+        width: '65%',
+        paddingLeft: '17px',
+        borderColor: 'white',
+        borderWidth: '2px',
+        borderRadius: 10,
+        boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"
     },
     NumeroDoisDigito:
     {
         color: 'rgb(162, 165, 180)',
         fontSize: "50px",
-        width: '55%',
+        width: '65%',
+        paddingLeft: '2px',
+        borderColor: 'white',
+        borderWidth: '2px',
+        borderRadius: 10,
+        boxShadow: "1px 1px 7px rgba(255,255,255, 0.3)"
     }
     
 })
