@@ -73,12 +73,14 @@ export default function App(props){
     return(
         <View style={styles.escolherNumero}>
                 <View style={styles.BotaoContainer}>
-                    <TouchableOpacity onPressIn={() => props.setQuantidade(addNumber(props.getQuantidade))}>
+                    <TouchableOpacity onPressIn={() => {props.setQuantidade(addNumber(props.getQuantidade));
+                                                        setEstiloInput(props.getQuantidade < 9? styles.Numero:styles.NumeroDoisDigito)}}>
                         <View style={styles.botao}>
                             <Entypo name={'arrow-up'} size={25} color={'#333853'} />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => props.setQuantidade(subNumber(props.getQuantidade))} >
+                    <TouchableOpacity onPress={() => {props.setQuantidade(subNumber(props.getQuantidade));
+                                                     setEstiloInput(props.getQuantidade < 11? styles.Numero:styles.NumeroDoisDigito)}} >
                         <View style={styles.botao}>
                             <Entypo name={'arrow-down'} size={25} color={'#333853'} />
                         </View>

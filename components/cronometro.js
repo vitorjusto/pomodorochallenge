@@ -74,9 +74,10 @@ export default function App({ route })
     }
 
     isOnBreak = !isOnBreak;
-    seconds = 0
     setStyle(isOnBreak ? '#F2C94C' : '#219653')
     setStyleText(isOnBreak ? styles.textoAmarelo : styles.textoVerde)
+    seconds = 0;
+    
     setBorda(calculaBorda())
     setNumber(`${gerarZeroAEsquerda(minutes)} : ${gerarZeroAEsquerda(seconds)}`)
   }
@@ -103,6 +104,7 @@ export default function App({ route })
         if (minutes == 0) 
         {
           pular()
+          seconds = 1;
         } else 
         {
           minutes -= 1;
