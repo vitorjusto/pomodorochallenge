@@ -52,7 +52,7 @@ export default function App(props){
     function formataNumero(texto)
     {
         var valor = 1
-        if (texto == "")
+        if (texto === "" || texto.match(/[0-9]/g) === null)
         {
             props.setQuantidade("")
         }else

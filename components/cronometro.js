@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { Audio } from 'expo-av';
 
 function gerarZeroAEsquerda(numero) 
 {
@@ -45,6 +46,23 @@ export default function App({ route })
 
     return resultado
   }
+
+  const [sound, setSound] = React.useState();
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+       require('../assets/sounds/alarm.wav')
+    );
+    setSound(sound);
+
+    await sound.playAsync(); }
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync(); }
+      : undefined;
+  }, [sound]);
 
   function pular() {
     if (isOnBreak)
@@ -103,6 +121,8 @@ export default function App({ route })
       {
         if (minutes == 0) 
         {
+          playSound() 
+
           pular()
           seconds = 1;
         } else 
