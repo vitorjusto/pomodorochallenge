@@ -54,7 +54,7 @@ export default function App({ route })
        require('../assets/sounds/alarm.wav')
     );
     setSound(sound);
-
+      
     await sound.playAsync(); }
 
   React.useEffect(() => {
@@ -162,7 +162,7 @@ export default function App({ route })
                    a 75,75 0 1,0 -220,0"
                 stroke={styleCronometer} style={{ transform: "rotate(90deg)" }} strokeDashoffset={borda} strokeDasharray="691, 691" strokeWidth="10" strokeLinecap="round" fill='rgba(0,0,0,0)' filter="url(#filtro)" />
           
-          <text fill="#ffffff" fontSize="45" fontFamily="Verdana" color="rgb(162, 165, 180)" x="65" y="165">{number}</text>
+          <text style={{userSelect: 'none'}} fill="#ffffff" fontSize="45" fontFamily="Verdana" color="rgb(162, 165, 180)" x="65" y="165">{number}</text>
 
         </svg>
       </View>
@@ -266,6 +266,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '75%'
-  }
+  },
 
 });

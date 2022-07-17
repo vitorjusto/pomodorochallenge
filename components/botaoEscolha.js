@@ -2,8 +2,6 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { Entypo } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
 
-
-
 function addNumber(number) {
     
     if (number === "")
@@ -158,7 +156,7 @@ const styles = StyleSheet.create({
         color: 'rgb(162, 165, 180)',
         fontSize: "50px",
         width: '65%',
-        paddingLeft: '2px',
+        paddingLeft: '4px',
         borderColor: 'white',
         borderWidth: '2px',
         borderRadius: 10,
